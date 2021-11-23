@@ -1,5 +1,7 @@
 # Interviewing-App-Web-Service
 
+![image](https://user-images.githubusercontent.com/83794482/143147314-cce498e4-6b1f-41a3-8ba7-41413293fe19.png)
+
 ## Schema Design
 
 ### Models
@@ -16,6 +18,18 @@ Interviewee
 | profilePic | File  | stores user's profile picture |
 | password  | String  | stores user's password |
     
+Employer
+
+| Property  | Type | Description |
+| ------------- | ------------- | -------------|
+| employerId | String | unique id for the user (default field) |
+| userName | String  | unique username for the employer |
+| firstName  | String  | user's first name |
+| lastName  | String  | user's last name |
+| dateCreated | DateTime  | date when account was created (default field) |
+| profilePic | File  | stores user's profile picture |
+| password  | String  | stores user's password |
+
 Employer
 
 | Property  | Type | Description |
