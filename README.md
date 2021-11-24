@@ -1,5 +1,11 @@
 # Interviewing-App-Web-Service
 
+## Group members
+
+*Davis Tong, David Maestas, Timothy Flach, Nhat Tran, and Alexa Tang*
+
+## Project Architecture
+
 ![image](https://user-images.githubusercontent.com/83794482/143147314-cce498e4-6b1f-41a3-8ba7-41413293fe19.png)
 
 ## Schema Design
