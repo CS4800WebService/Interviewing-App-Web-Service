@@ -29,7 +29,7 @@ Employer
 | dateCreated | DateTime  | date when account was created (default field) |
 | profilePic | File  | stores user's profile picture |
 | password  | String  | stores user's password |
-| status  | String  | stores employer's status (active hiring / await / closed) |
+| status  | String  | stores employer's status (active hiring / away / closed) |
 
 IntervieweeApplication
 
@@ -78,10 +78,10 @@ InterviewAnalysis
 |--------------|--------------|------------|
 | `GET` | /interviewee | fetches lists of interviewees|
 | `GET` | /interviewee/{intervieweeId} | fetches a single interviewee by id |
-| `GET` | /interviewee/{intervieweeId}/name | fetches the name by id |
-| `GET` | /interviewee/{intervieweeId}/position | fetches the position by a interviewee id |
-| `PUT` | /interviewee/{intervieweeId}/position | updates an interviewee position |
+| `GET` | /interviewee/{intervieweeId}/firstName | fetches the name by id |
+| `PUT` | /interviewee/{intervieweeId}/firstName | updates an interviewee firstname |
 | `POST` | /interviewee | adds an interviewee |
+| `GET` | /intervieweeApplication/{intervieweeId}/{jobId} | fetches the position by a interviewee id |
     
 | HTTP Verb | Endpoint | Description
    ----------|-----------|------------
