@@ -24,8 +24,7 @@ Employer
 | ------------- | ------------- | -------------|
 | employerId | String | unique id for the user (default field) |
 | userName | String  | unique username for the employer |
-| firstName  | String  | user's first name |
-| lastName  | String  | user's last name |
+| companyName  | String  | user's first name |
 | dateCreated | DateTime  | date when account was created (default field) |
 | profilePic | File  | stores user's profile picture |
 | password  | String  | stores user's password |
@@ -87,7 +86,7 @@ InterviewAnalysis
    ----------|-----------|------------
 | `GET` | /employer | fetches lists of employers |
 | `GET` | /employer/{employerId} | fetches a single employer by id |
-| `GET` | /employer/{employerId}/name | fetches the name by id |
+| `GET` | /employer/{employerId}/companyName | fetches the name by id |
 | `GET` | /employer/{employerId}/status | fetches the position by a employer id |
 | `PUT` | /employer/{employerId}/status | updates an employer status |
 | `POST` | /employer | adds an employer |
