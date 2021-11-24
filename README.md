@@ -29,18 +29,48 @@ Employer
 | dateCreated | DateTime  | date when account was created (default field) |
 | profilePic | File  | stores user's profile picture |
 | password  | String  | stores user's password |
+| status  | String  | stores employer's status (active hiring / await / closed) |
 
-Employer
+IntervieweeApplication
 
 | Property  | Type | Description |
 | ------------- | ------------- | -------------|
-| employerId | String | unique id for the user (default field) |
-| userName | String  | unique username for the employer |
-| firstName  | String  | user's first name |
-| lastName  | String  | user's last name |
+| itemId | String | unique id (default field) |
+| intervieweeId | String | foreign key |
+| jobId | String | foreign key |
+| status | String | stores interviewing status (waiting / accepted / pending) |
+
+JobPosition
+
+| Property  | Type | Description |
+| ------------- | ------------- | -------------|
+| jobId | String | unique id (default field) |
+| employerId | String | foreign key |
+| status | String | stores job status (waiting / accepting / closed) |
+| numApplicant | Number | stores the number of the applicants |
+| numHiring | Number | stores the hiring number |
+
+InterviewRecords
+
+| Property  | Type | Description |
+| ------------- | ------------- | -------------|
+| recordId | String | unique id for the interviewing question (default field) |
+| intervieweeId | String | foreign key |
 | dateCreated | DateTime  | date when account was created (default field) |
-| profilePic | File  | stores user's profile picture |
-| password  | String  | stores user's password |
+| questionVideo | File  | stores the question video |
+| questionText | String  | stores the question texts |
+| answerVideo | File  | stores user's video recorded answer for the question |
+| answerText | String | stores the answer texts |
+
+InterviewAnalysis
+
+| Property  | Type | Description |
+| ------------- | ------------- | -------------|
+| itemId | String | unique id (default field) |
+| recordId | String | foreign key |
+| voiceRes | String | stores the result of voice analysis |
+| faceRes | String | stores the result of facial analysis |
+| textRes | String | stores the result of textual analysis |
 
 ## Network Requests
 
