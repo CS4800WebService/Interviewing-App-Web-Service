@@ -10,6 +10,10 @@
 
 ## Schema Design
 
+### UML Domain Class Diagram
+
+![UML Class Diagram drawio](https://user-images.githubusercontent.com/83794482/143203147-21b8c14d-91f4-44e6-9a45-ce5683d63657.png)
+
 ### Models
 
 Interviewee
