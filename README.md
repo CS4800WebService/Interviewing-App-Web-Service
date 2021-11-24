@@ -44,8 +44,9 @@ IntervieweeApplication
 | intervieweeId | String | foreign key |
 | jobId | String | foreign key |
 | status | String | stores interviewing status (waiting / accepted / pending) |
+| dateCreated | DateTime  | date when application was created |
 
-JobPosition
+Jobs
 
 | Property  | Type | Description |
 | ------------- | ------------- | -------------|
@@ -54,6 +55,7 @@ JobPosition
 | status | String | stores job status (waiting / accepting / closed) |
 | numApplicant | Number | stores the number of the applicants |
 | numHiring | Number | stores the hiring number |
+| dateCreated | DateTime  | date when job was created |
 
 InterviewRecords
 
@@ -61,7 +63,7 @@ InterviewRecords
 | ------------- | ------------- | -------------|
 | recordId | String | unique id for the interviewing question (default field) |
 | intervieweeId | String | foreign key |
-| dateCreated | DateTime  | date when account was created (default field) |
+| dateCreated | DateTime  | date when record was created |
 | questionVideo | File  | stores the question video |
 | questionText | String  | stores the question texts |
 | answerVideo | File  | stores user's video recorded answer for the question |
