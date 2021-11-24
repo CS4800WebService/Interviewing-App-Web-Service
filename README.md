@@ -81,7 +81,7 @@ InterviewAnalysis
 | `GET` | /interviewee/{intervieweeId}/firstName | fetches the name by id |
 | `PUT` | /interviewee/{intervieweeId}/firstName | updates an interviewee firstname |
 | `POST` | /interviewee | adds an interviewee |
-| `GET` | /intervieweeApplication/{intervieweeId}/{jobId} | fetches the position by a interviewee id |
+| `GET` | /intervieweeApplication/{intervieweeId}/jobId | fetches the position by a interviewee id |
     
 | HTTP Verb | Endpoint | Description
    ----------|-----------|------------
