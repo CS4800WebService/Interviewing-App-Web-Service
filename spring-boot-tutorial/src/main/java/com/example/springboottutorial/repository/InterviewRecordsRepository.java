@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.springboottutorial.Models.InterviewRecords;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface InterviewRecordsRepository extends JpaRepository<InterviewRecords, Long>
 {
     List<InterviewRecords> findByIntervieweeIdContaining(int intervieweeId);

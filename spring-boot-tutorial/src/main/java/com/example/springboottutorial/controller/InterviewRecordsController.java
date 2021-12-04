@@ -59,14 +59,16 @@ public class InterviewRecordsController
     }
 
     //getting text response from front end
-    @PostMapping("/interviewRecords/answerText")
-    public ResponseEntity<InterviewRecords> createAnswerText(@RequestBody InterviewRecords interviewRecords) {
-        try {
-            InterviewRecords _interviewRecords = interviewRecordsRepository
-                .save(new InterviewRecords(interviewRecords.getAnswerText()));
-            return new ResponseEntity<>(_interviewRecords, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    @PutMapping("/interviewRecords/{interviewId}/answerText")
+    public ResponseEntity<InterviewRecords> createAnswerText(@RequestParam("intervieweeId") long intervieweeId) {
+        List<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findByIntervieweeIdContaining((int)intervieweeId);
+
+        if (interviewRecordsData.contains(intervieweeId)) {
+            InterviewRecords _interviewRecords = interviewRecordsData.get(interviewRecordsData.indexOf(interviewRecordsData.contains(intervieweeId)));
+            _interviewRecords.setAnswerText(_interviewRecords.getAnswerText());
+            return new ResponseEntity<>(interviewRecordsRepository.save(_interviewRecords), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -79,6 +81,20 @@ public class InterviewRecordsController
             return new ResponseEntity<>(_interviewRecords, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //getting text response from backend dialogue ?
+    @PutMapping("/interviewRecords/{interviewId}/questionText")
+    public ResponseEntity<InterviewRecords> createQuestionText(@RequestParam("intervieweeId") long intervieweeId) {
+        List<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findByIntervieweeIdContaining((int)intervieweeId);
+
+        if (interviewRecordsData.contains(intervieweeId)) {
+            InterviewRecords _interviewRecords = interviewRecordsData.get(interviewRecordsData.indexOf(interviewRecordsData.contains(intervieweeId)));
+            _interviewRecords.setQuestionText(_interviewRecords.getQuestionText());
+            return new ResponseEntity<>(interviewRecordsRepository.save(_interviewRecords), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
