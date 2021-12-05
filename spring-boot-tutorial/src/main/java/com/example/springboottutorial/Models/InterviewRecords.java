@@ -1,4 +1,5 @@
 package com.example.springboottutorial.Models;
+import java.sql.Blob;
 
 import javax.persistence.*;
 @Entity
@@ -10,37 +11,44 @@ public class InterviewRecords
         @GeneratedValue(strategy = GenerationType.AUTO)
         private long id;
 
-
-        //add in video file???
-
         @Column(name = "recordId")
         private int recordId;
 
         @Column(name = "intervieweeId")
         private int intervieweeId;
 
-        @Column(name = "dateCreated")
-        private String dateCreated;
+        @Column(name = "questionVideo")
+        @Lob
+        private Blob questionVideo;
 
         @Column(name = "questionText")
         private String questionText;
 
-        //this should be the interviewee's text responses
+        @Column(name = "answerVideo")
+        @Lob
+        private Blob answerVideo;
+
         @Column(name = "answerText")
         private String answerText;
+
+
+        @Column(name = "dateCreated")
+        private String dateCreated;
+
+
 
         public InterviewRecords(){}
 
         //front end to edit the answertext field
-        public InterviewRecords(String answerText)
+        public InterviewRecords(String questionText)
         {
-            this.answerText = answerText;
+            this.questionText = questionText;
         }
 
         //backend with generated questions
-        public InterviewRecords(String questionText, int recordId)
+        public InterviewRecords(String answerText, int recordId)
         {
-            this.questionText = questionText;
+            this.answerText = answerText;
             this.recordId = recordId;
         }
 
@@ -57,6 +65,42 @@ public class InterviewRecords
 
         public int getId() {
             return intervieweeId;
+        }
+
+        public void setId(long id) {
+                this.id = id;
+        }
+
+        public int getRecordId() {
+                return recordId;
+        }
+
+        public void setRecordId(int recordId) {
+                this.recordId = recordId;
+        }
+
+        public int getIntervieweeId() {
+                return intervieweeId;
+        }
+
+        public void setIntervieweeId(int intervieweeId) {
+                this.intervieweeId = intervieweeId;
+        }
+
+        public Blob getQuestionVideo() {
+                return questionVideo;
+        }
+
+        public void setQuestionVideo(Blob questionVideo) {
+                this.questionVideo = questionVideo;
+        }
+
+        public Blob getAnswerVideo() {
+                return answerVideo;
+        }
+
+        public void setAnswerVideo(Blob answerVideo) {
+                this.answerVideo = answerVideo;
         }
 
         public String getDateCreated() {
