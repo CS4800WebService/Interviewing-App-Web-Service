@@ -12,7 +12,8 @@
 
 ### UML Domain Class Diagram
 
-![UML Class Diagram drawio](https://user-images.githubusercontent.com/83794482/143203147-21b8c14d-91f4-44e6-9a45-ce5683d63657.png)
+![Domain Model Class Diagram](https://user-images.githubusercontent.com/83794482/144990941-f365f561-1ee6-4137-948f-4b61371d6a30.png)
+
 
 ### Models
 
@@ -99,3 +100,6 @@ InterviewAnalysis
 | `GET` | /employer/{employerId}/status | fetches the position by a employer id |
 | `PUT` | /employer/{employerId}/status | updates an employer status |
 | `POST` | /employer | adds an employer |
+
+Postman testing requests: https://warped-equinox-550447.postman.co/workspace/My-Workspace~d48de1ad-74d4-43cd-88bd-96184c605f82/documentation/18653391-dc78787a-b8be-404c-9a06-958369554cd0
+
