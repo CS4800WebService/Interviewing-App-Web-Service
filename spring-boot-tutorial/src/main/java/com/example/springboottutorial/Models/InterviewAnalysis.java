@@ -8,5 +8,11 @@ import javax.persistence.Table;
 @Table(name = "interviewanalysis")
 public class InterviewAnalysis {
 
-    @Column(name = "")
+    @Column(name = "itemid")
+    private String itemid;
+
+    @Column(name = "recordid")
+    private String recordid;
+
+
 }
