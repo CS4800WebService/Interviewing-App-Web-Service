@@ -21,8 +21,6 @@ public class Employer {
     @Column(name = "username")
     private String username;
 
-    @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Jobs> jobs = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "datecreated")
