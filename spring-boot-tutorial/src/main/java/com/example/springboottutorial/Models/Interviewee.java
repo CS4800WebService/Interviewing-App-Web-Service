@@ -3,101 +3,110 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
 
 import javax.persistence.*;
+
 @Entity
 @Table (name = "Interviewee")
 @IdClass(IntervieweeUserId.class)
-public class Interviewee
-{
+public class Interviewee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "intervieweeId")
-    private int intervieweeId;
+    @Column(name = "intervieweeid")
+    private int intervieweeid;
 
     @Id
-    @Column(name = "userName")
-    private String userName;
+    @Column(name = "username")
+    private String username;
 
     @CreationTimestamp
-    @Column(name = "dateCreated")
-    private Timestamp dateCreated;
+    @Column(name = "datecreated")
+    private Timestamp datecreated;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "firstName")
-    private String firstName;
+    @Column(name = "firstname")
+    private String firstname;
 
-    @Column(name = "lastName")
-    private String lastName;
+    @Column(name = "lastname")
+    private String lastname;
 
     @Lob
-    @Column(name = "profilePic")
-    private Blob profilePic;
+    @Column(name = "profilepic")
+    private Blob profilepic;
 
-    public Interviewee(){}
+    public Interviewee() {
+    }
 
-
-    public Interviewee (String firstName, String lastName, String userName, String password)
+    public Interviewee(String firstname, String lastname, String username, String password)
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
         this.password = password;
     }
 
     //front end to create a new user with username and password
-    public Interviewee (String userName, String password)
+    public Interviewee(String username, String password)
     {
-        this.userName = userName;
+        this.username = username;
         this.password = password;
     }
 
-    public int getIntervieweeId() {return intervieweeId; }
-
-    public Timestamp getDateCreated() {
-        return dateCreated;
+    public int getIntervieweeid() {
+        return intervieweeid;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setIntervieweeid(int intervieweeid) {
+        this.intervieweeid = intervieweeid;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public Timestamp getDatecreated() {
+        return datecreated;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setDatecreated(Timestamp datecreated) {
+        this.datecreated = datecreated;
     }
 
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setPassword(String password)
-    {
-        this.password = password;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getPassword()
-    {
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Blob getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(Blob profilepic) {
+        this.profilepic = profilepic;
+    }
+
+    public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
-
