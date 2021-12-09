@@ -1,4 +1,5 @@
 package com.bezkoder.spring.datajpa.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Blob;
@@ -10,18 +11,18 @@ import javax.persistence.*;
 
 @Entity
 @Table (name = "Employer")
-@IdClass(EmployerUserId.class)
+//@IdClass(EmployerUserId.class)
 public class Employer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "employerid")
     private int employerid;
 
-    @Id
+//    @Id
     @Column(name = "username")
     private String username;
 
-    @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employer")
     private Set<Jobs> jobs = new HashSet<>();
 
     @CreationTimestamp
@@ -113,6 +114,14 @@ public class Employer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Set<Jobs> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Jobs> jobs) {
+        this.jobs = jobs;
     }
 }
 

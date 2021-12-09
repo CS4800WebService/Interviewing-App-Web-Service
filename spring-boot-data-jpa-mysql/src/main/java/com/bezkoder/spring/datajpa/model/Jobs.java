@@ -1,5 +1,6 @@
 package com.bezkoder.spring.datajpa.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -16,6 +17,7 @@ public class Jobs {
 
     @ManyToOne
     @JoinColumn(name = "employerid")
+    @JsonBackReference
     private Employer employer;
 
     @CreationTimestamp
@@ -38,10 +40,9 @@ public class Jobs {
     private String status;
 
     // constructors
-    public Jobs(){super();}
+    public Jobs(){}
 
     public Jobs(Employer employer, String numhiring, String numapplicant, String title, String description, String status) {
-        super();
         this.employer = employer;
         this.numhiring = numhiring;
         this.numapplicant = numapplicant;

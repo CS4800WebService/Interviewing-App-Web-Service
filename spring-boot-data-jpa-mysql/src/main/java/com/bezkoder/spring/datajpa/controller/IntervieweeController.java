@@ -31,7 +31,7 @@ public class IntervieweeController
                 if (!interviewees.isEmpty())
                     return new ResponseEntity<>(HttpStatus.IM_USED);
             }
-            if (interviewee.getPassword() != null && interviewee.getPassword()!=null && interviewee.getLastname()!= null){
+            if (interviewee.getPassword() != null && interviewee.getFirstname()!=null && interviewee.getLastname()!= null){
                 Interviewee _interviewee = intervieweeRepository
                         .save(interviewee);
                 return new ResponseEntity<>(_interviewee, HttpStatus.CREATED);
