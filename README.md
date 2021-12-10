@@ -12,7 +12,7 @@
 
 ### UML Domain Class Diagram
 
-![Domain Model Class Diagram](https://user-images.githubusercontent.com/83794482/144990941-f365f561-1ee6-4137-948f-4b61371d6a30.png)
+![Domain Model Class Diagram updated](https://user-images.githubusercontent.com/83794482/145508919-c55c304f-e50f-4384-8f42-6378d7c79988.png)
 
 
 ### Models
