@@ -1,65 +1,71 @@
 package com.example.springboottutorial.Models;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Blob;
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
-import java.sql.*;
 
 @Entity
-@Table(name = "employer")
+@Table (name = "Employer")
+//@IdClass(EmployerUserId.class)
 public class Employer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
     @Column(name = "employerid")
-    private String employerid;
+    private int employerid;
 
+    //    @Id
     @Column(name = "username")
     private String username;
 
-    @Column(name = "companyname")
-    private String companyname;
+    @OneToMany(mappedBy = "employer")
+    private Set<Jobs> jobs = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "datecreated")
-    private Timestamp dateCreated;
-
-    @Column(name = "profilepic")
-    @Lob
-    private Blob profilepic;
+    private Timestamp datecreated;
 
     @Column(name = "password")
     private String password;
 
+    @Column(name = "companyname")
+    private String companyname;
+
     @Column(name = "status")
     private String status;
 
-    public Employer(String employerid, String username, String companyname,
-                    Timestamp dateCreated, Blob profilepic, String password, String status)
+    @Lob
+    @Column(name = "profilepic")
+    private Blob profilepic;
+
+    public Employer() {
+    }
+
+    //create a new user with username,password, and companyname
+    public Employer(String username, String password, String companyname)
     {
-        this.employerid = employerid;
-        this.username = username;
         this.companyname = companyname;
-        this.dateCreated = dateCreated;
-        this.profilepic = profilepic;
+        this.username = username;
         this.password = password;
-        this.status = status;
     }
 
-    public long getId() {
-        return id;
+    //create a new user with username and password
+    public Employer(String username, String password)
+    {
+        this.username = username;
+        this.password = password;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getEmployerid() {
+    public int getEmployerid() {
         return employerid;
     }
 
-    public void setEmployerid(String employerid) {
+    public void setEmployerid(int employerid) {
         this.employerid = employerid;
     }
 
@@ -71,28 +77,12 @@ public class Employer {
         this.username = username;
     }
 
-    public String getCompanyname() {
-        return companyname;
+    public Timestamp getDatecreated() {
+        return datecreated;
     }
 
-    public void setCompanyname(String companyname) {
-        this.companyname = companyname;
-    }
-
-    public Timestamp getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Timestamp dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Blob getProfilepic() {
-        return profilepic;
-    }
-
-    public void setProfilepic(Blob profilepic) {
-        this.profilepic = profilepic;
+    public void setDatecreated(Timestamp datecreated) {
+        this.datecreated = datecreated;
     }
 
     public String getPassword() {
@@ -103,6 +93,22 @@ public class Employer {
         this.password = password;
     }
 
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
+    public Blob getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(Blob profilepic) {
+        this.profilepic = profilepic;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -110,4 +116,13 @@ public class Employer {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Set<Jobs> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Jobs> jobs) {
+        this.jobs = jobs;
+    }
 }
+

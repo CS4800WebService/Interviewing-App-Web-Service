@@ -1,18 +1,13 @@
 package com.example.springboottutorial.repository;
-import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.springboottutorial.Models.InterviewRecords;
+import com.example.springboottutorial.Models.IntervieweeApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface InterviewRecordsRepository extends JpaRepository<InterviewRecords, Long>
-{
-    List<InterviewRecords> findByIntervieweeIdContaining(int intervieweeId);
-    List<InterviewRecords> findByDateCreated(String dateCreated);
+import java.util.List;
 
-    /*Now we can use JpaRepository’s methods: save(), findOne(), findById(), findAll(),
-    count(), delete(), deleteById()… without implementing these methods.
-     */
+@Repository
+public interface InterviewRecordsRepository extends JpaRepository<InterviewRecords,Integer> {
+    List<InterviewRecords> findByIntervieweeApplication(IntervieweeApplication intervieweeApplication);
 }

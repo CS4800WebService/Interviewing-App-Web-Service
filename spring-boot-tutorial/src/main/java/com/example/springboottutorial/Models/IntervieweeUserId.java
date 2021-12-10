@@ -16,11 +16,11 @@ public class IntervieweeUserId implements Serializable {
     public IntervieweeUserId(){}
 
     public IntervieweeUserId(int intervieweeid, String username) {
-        this.intervieweeid = this.intervieweeid;
+        this.intervieweeid = intervieweeid;
         this.username = username;
     }
 
-    public int getIntervieweeid() {
+    public long getIntervieweeid() {
         return intervieweeid;
     }
 
@@ -40,8 +40,8 @@ public class IntervieweeUserId implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + intervieweeid;
-        result = Integer.parseInt(prime * result + username);
+        result =  (prime * result + intervieweeid);
+        result = prime * result + Integer.parseInt(username);
         return result;
     }
 

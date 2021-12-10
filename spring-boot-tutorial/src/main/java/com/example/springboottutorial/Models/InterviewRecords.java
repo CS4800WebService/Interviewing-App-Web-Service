@@ -1,112 +1,154 @@
 package com.example.springboottutorial.Models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
 import java.sql.Blob;
-import java.sql.Time;
 import java.sql.Timestamp;
 
-import javax.persistence.*;
 @Entity
-@Table(name = "InterviewRecords")
+@Table(name = "interviewrecords")
 public class InterviewRecords
 {
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "recordId")
-        private int recordId;
+        @Column(name = "recordid")
+        private int recordid;
 
-        @Column(name = "intervieweeId")
-        private int intervieweeId;
+        @ManyToOne
+        @JoinColumn(name = "itemid")
+        @JsonBackReference
+        private IntervieweeApplication intervieweeApplication;
 
-        @Column(name = "questionVideo")
+        @Column(name = "questionvideo")
         @Lob
-        private Blob questionVideo;
+        private Blob questionvideo;
 
-        @Column(name = "questionText")
-        private String questionText;
+        @Column(name = "questionvideolink")
+        private String questionvideolink;
 
-        @Column(name = "answerVideo")
+        @Column(name = "questiontext")
+        private String questiontext;
+
+        @Column(name = "answervideo")
         @Lob
-        private Blob answerVideo;
+        private Blob answervideo;
 
-        @Column(name = "answerText")
-        private String answerText;
+        @Column(name = "answervideolink")
+        private String answervideolink;
+
+        @Column(name = "answertext")
+        private String answertext;
 
         @CreationTimestamp
-        @Column(name = "dateCreated")
-        private Timestamp dateCreated;
+        @Column(name = "datecreated")
+        private Timestamp datecreated;
 
+        @Column(name = "voiceres")
+        private String voiceres;
 
+        @Column(name = "faceres")
+        private String faceres;
+
+        @Column(name = "textres")
+        private String textres;
 
         public InterviewRecords(){}
 
-        //front end to edit the answertext field
-        public InterviewRecords(String questionText)
-        {
-            this.questionText = questionText;
+        public int getRecordid() {
+                return recordid;
         }
 
-        //backend with generated questions
-        public InterviewRecords(String answerText, int recordId)
-        {
-            this.answerText = answerText;
-            this.recordId = recordId;
+        public void setRecordid(int recordid) {
+                this.recordid = recordid;
         }
 
-        public int getRecordId() {
-                return recordId;
+        public IntervieweeApplication getIntervieweeApplication() {
+                return intervieweeApplication;
         }
 
-        public int getIntervieweeId() {
-                return intervieweeId;
+        public void setIntervieweeApplication(IntervieweeApplication intervieweeApplication) {
+                this.intervieweeApplication = intervieweeApplication;
         }
 
-        public void setIntervieweeId(int intervieweeId) {
-                this.intervieweeId = intervieweeId;
+        public Blob getQuestionvideo() {
+                return questionvideo;
         }
 
-        public Blob getQuestionVideo() {
-                return questionVideo;
+        public void setQuestionvideo(Blob questionvideo) {
+                this.questionvideo = questionvideo;
         }
 
-        public void setQuestionVideo(Blob questionVideo) {
-                this.questionVideo = questionVideo;
+        public String getQuestionvideolink() {
+                return questionvideolink;
         }
 
-        public Blob getAnswerVideo() {
-                return answerVideo;
+        public void setQuestionvideolink(String questionvideolink) {
+                this.questionvideolink = questionvideolink;
         }
 
-        public void setAnswerVideo(Blob answerVideo) {
-                this.answerVideo = answerVideo;
+        public String getQuestiontext() {
+                return questiontext;
         }
 
-        public Timestamp getDateCreated() {
-            return dateCreated;
+        public void setQuestiontext(String questiontext) {
+                this.questiontext = questiontext;
         }
 
-        public String getQuestionText() {
-            return questionText;
+        public Blob getAnswervideo() {
+                return answervideo;
         }
 
-        public void setQuestionText(String questionText)
-        {
-            this.questionText = questionText;
+        public void setAnswervideo(Blob answervideo) {
+                this.answervideo = answervideo;
         }
 
-        public String getAnswerText() {
-            return answerText;
+        public String getAnswervideolink() {
+                return answervideolink;
         }
 
-        public void setAnswerText(String answerText)
-        {
-            this.answerText = answerText;
+        public void setAnswervideolink(String answervideolink) {
+                this.answervideolink = answervideolink;
         }
 
-        @Override
-        public String toString() {
-            return "Interview Records [recordId=" + recordId + "intervieweeId" + intervieweeId + ", date=" + dateCreated + ", " +
-                    "question=" + questionText + ", answer=" + answerText + "]";
+        public String getAnswertext() {
+                return answertext;
+        }
+
+        public void setAnswertext(String answertext) {
+                this.answertext = answertext;
+        }
+
+        public Timestamp getDatecreated() {
+                return datecreated;
+        }
+
+        public void setDatecreated(Timestamp datecreated) {
+                this.datecreated = datecreated;
+        }
+
+        public String getVoiceres() {
+                return voiceres;
+        }
+
+        public void setVoiceres(String voiceres) {
+                this.voiceres = voiceres;
+        }
+
+        public String getFaceres() {
+                return faceres;
+        }
+
+        public void setFaceres(String faceres) {
+                this.faceres = faceres;
+        }
+
+        public String getTextres() {
+                return textres;
+        }
+
+        public void setTextres(String textres) {
+                this.textres = textres;
         }
 }

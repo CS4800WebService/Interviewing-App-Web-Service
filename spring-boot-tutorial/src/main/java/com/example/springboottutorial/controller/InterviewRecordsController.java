@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.springboottutorial.repository.IntervieweeApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,138 +18,147 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.springboottutorial.repository.InterviewRecordsRepository;
 import com.example.springboottutorial.Models.InterviewRecords;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
-public class InterviewRecordsController
-{
+public class InterviewRecordsController {
     @Autowired
     InterviewRecordsRepository interviewRecordsRepository;
+    @Autowired
+    IntervieweeApplicationRepository intervieweeApplicationRepository;
 
-    @GetMapping("/interviewRecords")
-    public ResponseEntity<List<InterviewRecords>> getAllInterviewRecords(@RequestParam(required = false) String title) {
+    // create a new interview record
+    @PostMapping("/application/record")
+    ResponseEntity<InterviewRecords> createIntervieweeRecord(@RequestParam("itemid") int itemid, @RequestBody InterviewRecords interviewRecords){
         try {
-            List<InterviewRecords> interviewRecords = new ArrayList<InterviewRecords>();
-            // add all available records to List
-            interviewRecordsRepository.findAll().forEach(interviewRecords::add);
-
-            if (interviewRecords.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            if(intervieweeApplicationRepository.existsById(itemid)){
+                InterviewRecords record = new InterviewRecords();
+                record.setIntervieweeApplication(intervieweeApplicationRepository.getById(itemid));
+                record.setAnswertext(interviewRecords.getAnswertext());
+                record.setAnswervideo(interviewRecords.getAnswervideo());
+                record.setAnswervideolink(interviewRecords.getAnswervideolink());
+                record.setQuestiontext(interviewRecords.getQuestiontext());
+                record.setQuestionvideo(interviewRecords.getQuestionvideo());
+                record.setQuestionvideolink(interviewRecords.getQuestionvideolink());
+                record.setFaceres(interviewRecords.getFaceres());
+                record.setTextres(interviewRecords.getTextres());
+                record.setVoiceres(interviewRecords.getVoiceres());
+                return new ResponseEntity<>(interviewRecordsRepository.save(record), HttpStatus.CREATED);
             }
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    // create a new interview record
+    @PostMapping("/record")
+    ResponseEntity<InterviewRecords> createRecord(@RequestBody InterviewRecords interviewRecords){
+        try {
+            if(interviewRecords != null){
+                return new ResponseEntity<>(interviewRecordsRepository.save(interviewRecords), HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //retrieve all records
+    @GetMapping("/records")
+    public ResponseEntity<List<InterviewRecords>> getRecords(){
+        try {
+            List<InterviewRecords> interviewRecords = new ArrayList<>(interviewRecordsRepository.findAll());
+            if (interviewRecords.isEmpty()){
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
             return new ResponseEntity<>(interviewRecords, HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //retrieving from db
-    @GetMapping("/interviewRecords/{intervieweeId}")
-    public ResponseEntity<InterviewRecords> getInterviewRecordById(@RequestParam("intervieweeId") long intervieweeId) {
-        List<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findByIntervieweeIdContaining((int)intervieweeId);
-
-        if (interviewRecordsData.contains(intervieweeId)) {
-            return new ResponseEntity<>(interviewRecordsData.get(interviewRecordsData.indexOf(intervieweeId)), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // retrieve a record by record id
+    @GetMapping("/record/{recordid}")
+    public ResponseEntity<InterviewRecords> getRecordById(@PathVariable("recordid") int recordid){
+        Optional<InterviewRecords> interviewRecords = interviewRecordsRepository.findById(recordid);
+        if(interviewRecords.isPresent()){
+            return new ResponseEntity<>(interviewRecords.get(), HttpStatus.OK);
         }
+        else
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    //getting text response from front end
-    @PutMapping("/interviewRecords/{interviewId}/answerText")
-    public ResponseEntity<InterviewRecords> createAnswerText(@RequestParam("intervieweeId") long intervieweeId) {
-        List<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findByIntervieweeIdContaining((int)intervieweeId);
-
-        if (interviewRecordsData.contains(intervieweeId)) {
-            InterviewRecords _interviewRecords = interviewRecordsData.get(interviewRecordsData.indexOf(interviewRecordsData.contains(intervieweeId)));
-            _interviewRecords.setAnswerText(_interviewRecords.getAnswerText());
-            return new ResponseEntity<>(interviewRecordsRepository.save(_interviewRecords), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // retrieve records by application id
+    @GetMapping("/application/{itemid}/records")
+    public ResponseEntity<List<InterviewRecords>> getRecordByApplicationId(@PathVariable("itemid") int itemid){
+        List<InterviewRecords> interviewRecords = interviewRecordsRepository.findByIntervieweeApplication(intervieweeApplicationRepository.getById(itemid));
+        if(interviewRecords.isEmpty()){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+        else
+            return new ResponseEntity<>(interviewRecords, HttpStatus.OK);
     }
 
-    // question creation from backend
-    @PostMapping("/interviewRecords/questionText")
-    public ResponseEntity<InterviewRecords> createQuestionText(@RequestBody InterviewRecords interviewRecords) {
+    // update a record
+    @PutMapping("/record")
+    public ResponseEntity<InterviewRecords> updateRecordInfo(@RequestBody InterviewRecords interviewRecords){
+        Optional<InterviewRecords> recordData = interviewRecordsRepository.findById(interviewRecords.getRecordid());
+        if (recordData.isPresent()){
+            InterviewRecords record = recordData.get();
+            if(interviewRecords.getIntervieweeApplication()!=null)
+                record.setIntervieweeApplication(interviewRecords.getIntervieweeApplication());
+            if(interviewRecords.getAnswertext()!=null)
+                record.setAnswertext(interviewRecords.getAnswertext());
+            if(interviewRecords.getAnswervideo()!=null)
+                record.setAnswervideo(interviewRecords.getAnswervideo());
+            if(interviewRecords.getAnswervideolink()!=null)
+                record.setAnswervideolink(interviewRecords.getAnswervideolink());
+            if(interviewRecords.getQuestiontext()!=null)
+                record.setQuestiontext(interviewRecords.getQuestiontext());
+            if(interviewRecords.getQuestionvideo()!=null)
+                record.setQuestionvideo(interviewRecords.getQuestionvideo());
+            if(interviewRecords.getQuestionvideolink()!=null)
+                record.setQuestionvideolink(interviewRecords.getQuestionvideolink());
+            if(interviewRecords.getFaceres()!=null)
+                record.setFaceres(interviewRecords.getFaceres());
+            if(interviewRecords.getTextres()!=null)
+                record.setTextres(interviewRecords.getTextres());
+            if(interviewRecords.getVoiceres()!=null)
+                record.setVoiceres(interviewRecords.getVoiceres());
+            return new ResponseEntity<>(interviewRecordsRepository.save(record), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    // delete record by id
+    @DeleteMapping("/record/{recordid}")
+    public ResponseEntity<HttpStatus> deleteRecordById(@PathVariable("recordid") int recordid){
         try {
-            InterviewRecords _interviewRecords = interviewRecordsRepository
-                    .save(new InterviewRecords(interviewRecords.getQuestionText()));
-            return new ResponseEntity<>(_interviewRecords, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    //getting text response from backend dialogue ?
-    @PutMapping("/interviewRecords/{interviewId}/questionText")
-    public ResponseEntity<InterviewRecords> createQuestionText(@RequestParam("intervieweeId") long intervieweeId) {
-        List<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findByIntervieweeIdContaining((int)intervieweeId);
-
-        if (interviewRecordsData.contains(intervieweeId)) {
-            InterviewRecords _interviewRecords = interviewRecordsData.get(interviewRecordsData.indexOf(interviewRecordsData.contains(intervieweeId)));
-            _interviewRecords.setQuestionText(_interviewRecords.getQuestionText());
-            return new ResponseEntity<>(interviewRecordsRepository.save(_interviewRecords), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // get request for front end to retrieve questions
-    @GetMapping("/interviewRecords/{intervieweeId}/questionText")
-    public ResponseEntity<String> getInterviewQuestions(@PathVariable("intervieweeId") long intervieweeId) {
-        List<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findByIntervieweeIdContaining((int)intervieweeId);
-        InterviewRecords interviewRecords = new InterviewRecords();
-        try {
-            if (interviewRecordsData.contains(intervieweeId)) {
-                InterviewRecords _interviewRecords = interviewRecordsRepository
-                        .save(new InterviewRecords(interviewRecords.getQuestionText()));
-                return new ResponseEntity<>(interviewRecordsData.get(interviewRecordsData.indexOf(intervieweeId)).getQuestionText(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            Optional<InterviewRecords> interviewRecords = interviewRecordsRepository.findById(recordid);
+            if (interviewRecords.isPresent()) {
+                InterviewRecords _record = interviewRecords.get();
+                interviewRecordsRepository.delete(_record);
+                return new ResponseEntity<>(HttpStatus.GONE);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/interviewRecords/{intervieweeId}")
-    public ResponseEntity<InterviewRecords> updateInterviewRecords(@PathVariable("intervieweeId") long intervieweeId, @RequestBody InterviewRecords interviewRecords) {
-        Optional<InterviewRecords> interviewRecordsData = interviewRecordsRepository.findById(intervieweeId);
-
-        if (interviewRecordsData.isPresent()) {
-            InterviewRecords _interviewRecords = interviewRecordsData.get();
-            _interviewRecords.setAnswerText(interviewRecords.getAnswerText());
-            _interviewRecords.setQuestionText(interviewRecords.getQuestionText());
-            return new ResponseEntity<>(interviewRecordsRepository.save(_interviewRecords), HttpStatus.OK);
-        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/interviewRecords/{intervieweeId}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("intervieweeId") long intervieweeId) {
-        try {
-            interviewRecordsRepository.deleteById(intervieweeId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/interviewRecords")
-    public ResponseEntity<HttpStatus> deleteAllInterviewRecords() {
+    //delete all records
+    @DeleteMapping("/records")
+    public ResponseEntity<HttpStatus> deleteAllRecords() {
         try {
             interviewRecordsRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
 }

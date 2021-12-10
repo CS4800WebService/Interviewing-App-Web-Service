@@ -1,13 +1,12 @@
 package com.example.springboottutorial.repository;
-import java.util.List;
-import java.util.Optional;
 
 import com.example.springboottutorial.Models.Interviewee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
-public interface IntervieweeRepository extends JpaRepository<Interviewee, Long> {
-    List<Interviewee> findByIntervieweeid(int intervieweeId);
-    List<Interviewee> findByUsername(String userName);
+public interface IntervieweeRepository extends JpaRepository<Interviewee, Integer> {
+    List<Interviewee> findByIntervieweeid(Integer intervieweeid);
+    List<Interviewee> findByUsername(String username);
 }
