@@ -3,21 +3,26 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
 @Entity
 @Table (name = "Interviewee")
-@IdClass(IntervieweeUserId.class)
+//@IdClass(IntervieweeUserId.class)
 public class Interviewee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "intervieweeid")
     private int intervieweeid;
 
-    @Id
+//    @Id
     @Column(name = "username")
     private String username;
+
+    @OneToMany(mappedBy = "interviewee")
+    private Set<IntervieweeApplication> intervieweeApplications = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "datecreated")
@@ -108,5 +113,13 @@ public class Interviewee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<IntervieweeApplication> getIntervieweeApplications() {
+        return intervieweeApplications;
+    }
+
+    public void setIntervieweeApplications(Set<IntervieweeApplication> intervieweeApplications) {
+        this.intervieweeApplications = intervieweeApplications;
     }
 }

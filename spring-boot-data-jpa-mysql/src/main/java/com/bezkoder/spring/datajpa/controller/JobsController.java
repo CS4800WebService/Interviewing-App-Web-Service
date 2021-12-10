@@ -62,7 +62,7 @@ public class JobsController {
         }
     }
 
-    // to retrieve the job with a specific job id,
+    // to retrieve the job info with a specific job id,
     // example request url: http://localhost:8080/api/jobs/1
     @GetMapping("/jobs/{jobid}")
     public ResponseEntity<Jobs> getJobById(@PathVariable("jobid") int jobid) {

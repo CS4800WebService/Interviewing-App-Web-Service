@@ -1,9 +1,12 @@
 package com.bezkoder.spring.datajpa.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -19,6 +22,10 @@ public class Jobs {
     @JoinColumn(name = "employerid")
     @JsonBackReference
     private Employer employer;
+
+    @OneToMany(mappedBy = "job")
+//    @JsonManagedReference(value="job-application")
+    private Set<IntervieweeApplication> intervieweeApplications = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "datecreated")
@@ -115,5 +122,13 @@ public class Jobs {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Set<IntervieweeApplication> getIntervieweeApplications() {
+        return intervieweeApplications;
+    }
+
+    public void setIntervieweeApplications(Set<IntervieweeApplication> intervieweeApplications) {
+        this.intervieweeApplications = intervieweeApplications;
     }
 }
